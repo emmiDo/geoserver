@@ -1,0 +1,39 @@
+{% extends "pagination.html" %}
+{% block labels_tab %}class="active"{% endblock %}
+{% block title2 %}Labeled Questions{% endblock %}
+{% block header %}Labeled Questions{% endblock %}
+{% block content2 %}
+	<table class="table">
+		<tr>
+			<th>ID</th>
+			<th>Text</th>
+			<th>Diagram</th>
+			<th>Tags</th>
+			<th>Actions</th>
+		</tr>
+		{% for question in question_list %}
+			<tr>
+				<td>{{ question.pk }}</td>
+				<td>{{ question.text }}</td>
+				<td>
+				{% if question.label %}
+					<img src="{{ question.label.image.url }}" width="400px">
+				{% else %}
+					<img src="{{ question.diagram.url }}" width="400px">
+				{% endif %}
+				</td>
+				<td>
+                    {% for tag in question.tags.all %}
+						<span class="label label-default">{{ tag }}</span>
+                    {% endfor %}
+
+				</td>
+                <td>
+					<a href="{% url 'labels-create' question.pk %}">annotate</a>
+                    <a href="{% url 'labels-detail' question.pk %}">detail</a>
+                    <a href="{% url 'labels-delete' question.pk %}">delete</a>
+                </td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends "pagination.html" %}
+{% block semantics_tab %}class="active"{% endblock %}
+{% block title2 %}Questions{% endblock %}
+{% block header %}Questions{% endblock %}
+{% block content2 %}
+        <table class="table">
+            <tr>
+                <th>ID</th>
+                <th>Number</th>
+                <th>Diagram</th>
+                <th>Text</th>
+                <th>Annotations</th>
+                <th>Actions</th>
+            </tr>
+            {% for question in question_list %}
+                {% for sentence in question.sentences.all %}
+                    <tr>
+                    {% if forloop.counter0 == 0 %}
+                        <td rowspan="{{ question.sentences.all|length }}">{{ question.pk }}</td>
+                        <td rowspan="{{ question.sentences.all|length }}">{{ forloop.parentloop.counter0 }}</td>
+                        <td rowspan="{{ question.sentences.all|length }}">
+                        {% if question.diagram %}
+                            <div class="item"><img src="{{ question.diagram.url }}" width="300px"></div>
+                        {% endif %}
+                        </td>
+                    {% endif %}
+                    <td> {{ forloop.counter0 }}. {{ sentence.text }}
+                    <td>
+                        <ul class="list-group">
+                            {% for semantic_parse in sentence.semantic_parses.all %}
+                                <li class="list-group-item">{{ semantic_parse.parse }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <a class="modify" href="{% url 'semantics-annotate' question.pk sentence.index %}">Annotate</a>
+                        <a class="modify" href="{% url 'questions-update' question.pk %}">Update</a>
+                    </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+{% endblock %}
+{% block script %}
+    <script>
+    $(window).ready(function() {
+        if ($.cookie("scroll") !== null) {
+            $(window).scrollTop($.cookie("scroll"));
+        }
+    });
+    $('a.modify').click(function() {
+        $.cookie("scroll", $(document).scrollTop());
+    });
+    </script>
+{% endblock %}
