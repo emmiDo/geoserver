@@ -103,10 +103,10 @@ class QuestionUploadView(View):
             _add_sentences(this)
             
             # Views
-            if request.POST['html'] == 'false':
+            if request.POST.get('html') == 'false':
                 return HttpResponse(str(this.pk))
             else:
-                return redirect(request.POST['next'])
+                return redirect(request.POST.get('next'))
         else:
             # Do nothing
             
@@ -123,7 +123,7 @@ class QuestionUploadView(View):
     def get(self, request):
         form = QuestionForm()
         data = {'title': 'upload a question', 'form': form,
-                'next': request.META['HTTP_REFERER']}
+                'next': request.META.get('HTTP_REFERER')}
         return  render(request, 'upload_form.html', data)
 
 class ChoiceUploadView(View):

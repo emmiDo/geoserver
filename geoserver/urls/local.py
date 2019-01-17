@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-
+from django.urls import re_path
 from django.contrib import admin
 from django.conf.urls.static import static
 from geoserver import settings
@@ -14,10 +14,10 @@ urlpatterns = [
     # url(r'^$', 'geoserver.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
 
-    url(r'^semantics/', include(semantics_urls)),
-    url(r'^labels/', include(labels_urls)),
-    url(r'^questions/', include(questions_urls)),
-    url(r'^admin/', admin.site.urls),
+    re_path(r'^semantics/', include(semantics_urls)),
+    re_path(r'^labels/', include(labels_urls)),
+    re_path(r'^questions/', include(questions_urls)),
+    re_path(r'^admin/', admin.site.urls),
 ]
 
 if settings.local.DEBUG:

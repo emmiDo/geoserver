@@ -94,10 +94,21 @@ USE_TZ = True
 
 # Template Directories
 
-
-TEMPLATE_DIRS = (
-    BASE_DIR.child("templates"),
-)
+TEMPLATES = [
+     {
+         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+         'DIRS': ['C:/Users/Krishanthy/Documents/MSc/Research/Project/project/geoserver/templates'],
+         'APP_DIRS': True,
+         'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 STATIC_ROOT = BASE_DIR.child('static')
 MEDIA_ROOT = BASE_DIR.child('media')
